@@ -23,9 +23,7 @@ public class UserController {
     }
 
     @PutMapping("/update")
-    public Object update(@RequestParam int id,
-                         @RequestParam(required = false) String name,
-                         @RequestParam(required = false) String email) {
+    public Object update(@RequestParam int id, @RequestParam(required = false) String name, @RequestParam(required = false) String email) {
         for (User u : DB.users) {
             if (u.getId() == id) {
                 if (name != null) u.setName(name);

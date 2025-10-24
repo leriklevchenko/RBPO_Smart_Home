@@ -11,11 +11,7 @@ import java.util.List;
 public class AutomationRuleController {
 
     @PostMapping("/add")
-    public Object add(@RequestParam int id,
-                      @RequestParam int roomId,
-                      @RequestParam String eventType,
-                      @RequestParam String action,
-                      @RequestParam(defaultValue = "true") boolean active) {
+    public Object add(@RequestParam int id, @RequestParam int roomId, @RequestParam String eventType, @RequestParam String action, @RequestParam(defaultValue = "true") boolean active) {
         AutomationRule r = new AutomationRule(id, roomId, eventType, action, active);
         DB.rules.add(r);
         return r;
@@ -27,11 +23,7 @@ public class AutomationRuleController {
     }
 
     @PutMapping("/update")
-    public Object update(@RequestParam int id,
-                         @RequestParam(required = false) Integer roomId,
-                         @RequestParam(required = false) String eventType,
-                         @RequestParam(required = false) String action,
-                         @RequestParam(required = false) Boolean active) {
+    public Object update(@RequestParam int id, @RequestParam(required = false) Integer roomId, @RequestParam(required = false) String eventType, @RequestParam(required = false) String action, @RequestParam(required = false) Boolean active) {
         for (AutomationRule r : DB.rules) {
             if (r.getId() == id) {
                 if (roomId != null) r.setRoomId(roomId);

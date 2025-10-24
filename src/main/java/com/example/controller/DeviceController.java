@@ -11,11 +11,7 @@ import java.util.List;
 public class DeviceController {
 
     @PostMapping("/add")
-    public Object add(@RequestParam int id,
-                      @RequestParam String name,
-                      @RequestParam int roomId,
-                      @RequestParam String type,
-                      @RequestParam(defaultValue = "false") boolean on) {
+    public Object add(@RequestParam int id, @RequestParam String name, @RequestParam int roomId, @RequestParam String type, @RequestParam(defaultValue = "false") boolean on) {
         Device d = new Device(id, name, roomId, type, on);
         DB.devices.add(d);
         return d;
@@ -27,11 +23,7 @@ public class DeviceController {
     }
 
     @PutMapping("/update")
-    public Object update(@RequestParam int id,
-                         @RequestParam(required = false) String name,
-                         @RequestParam(required = false) Integer roomId,
-                         @RequestParam(required = false) String type,
-                         @RequestParam(required = false) Boolean on) {
+    public Object update(@RequestParam int id, @RequestParam(required = false) String name, @RequestParam(required = false) Integer roomId, @RequestParam(required = false) String type, @RequestParam(required = false) Boolean on) {
         for (Device d : DB.devices) {
             if (d.getId() == id) {
                 if (name != null) d.setName(name);

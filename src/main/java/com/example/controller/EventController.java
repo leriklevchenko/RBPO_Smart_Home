@@ -14,10 +14,7 @@ import java.util.List;
 public class EventController {
 
     @PostMapping("/add")
-    public Object add(@RequestParam int id,
-                      @RequestParam int deviceId,
-                      @RequestParam String type,
-                      @RequestParam(required = false) String data) {
+    public Object add(@RequestParam int id, @RequestParam int deviceId, @RequestParam String type, @RequestParam(required = false) String data) {
         // Находим устройство
         Device found = null;
         for (Device d : DB.devices) {
@@ -67,10 +64,7 @@ public class EventController {
     }
 
     @PutMapping("/update")
-    public Object update(@RequestParam int id,
-                         @RequestParam(required = false) Integer deviceId,
-                         @RequestParam(required = false) String type,
-                         @RequestParam(required = false) String data) {
+    public Object update(@RequestParam int id, @RequestParam(required = false) Integer deviceId, @RequestParam(required = false) String type, @RequestParam(required = false) String data) {
         for (Event e : DB.events) {
             if (e.getId() == id) {
                 if (deviceId != null) e.setDeviceId(deviceId);

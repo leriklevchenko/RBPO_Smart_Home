@@ -1,13 +1,24 @@
 package com.example.model;
 
-import lombok.*;
+import jakarta.persistence.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Entity
+@Table(name = "events")
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class Event {
-    private int id;
-    private int deviceId;
-    private String type;   // тип события, например "motion", "open", "temp"
-    private String data;   // произвольные данные
+
+    @Id
+    private Integer id;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "device_id")
+    private Device device;
+
+    @Column(nullable = false)
+    private String type;   // event type, e.g. "motion", "open", "temp"
+
+    private String data;   // arbitrary payload
 }

@@ -1,14 +1,28 @@
 package com.example.model;
 
-import lombok.*;
+import jakarta.persistence.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Entity
+@Table(name = "devices")
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class Device {
-    private int id;
+
+    @Id
+    private Integer id;
+
+    @Column(nullable = false)
     private String name;
-    private int roomId;    // в какой комнате
-    private String type;   // пример: "light", "sensor"
-    private boolean on;    // включено/выключено
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "room_id")
+    private Room room;
+
+    @Column(nullable = false)
+    private String type;   // e.g. "light", "sensor"
+
+    @Column(nullable = false)
+    private boolean on;
 }

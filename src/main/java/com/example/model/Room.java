@@ -1,11 +1,18 @@
 package com.example.model;
 
-import lombok.*;
+import jakarta.persistence.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Entity
+@Table(name = "rooms")
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class Room {
-    private int id;
+
+    @Id
+    private Integer id;
+
+    @Column(nullable = false, unique = true)
     private String name;
 }

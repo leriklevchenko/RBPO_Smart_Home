@@ -1,14 +1,28 @@
 package com.example.model;
 
-import lombok.*;
+import jakarta.persistence.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Entity
+@Table(name = "automation_rules")
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class AutomationRule {
-    private int id;
-    private int roomId;        // для какой комнаты действует правило
-    private String eventType;  // на какое событие реагируем (например, "motion")
-    private String action;     // что делаем: "turn_on_light" или "notify_user"
-    private boolean active;    // активно ли правило
+
+    @Id
+    private Integer id;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "room_id")
+    private Room room;        // room where rule applies
+
+    @Column(nullable = false)
+    private String eventType;  // event type to react on (e.g. "motion")
+
+    @Column(nullable = false)
+    private String action;     // "turn_on_light" or "notify_user"
+
+    @Column(nullable = false)
+    private boolean active;    // is rule active
 }

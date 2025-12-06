@@ -1,0 +1,122 @@
+### AUTH
+
+### Register new user (no auth required)
+POST http://localhost:8080/api/auth/register
+Content-Type: application/json
+
+{
+  "username": "newUser1",
+  "password": "StrongPass1!"
+}
+
+### Example: get CSRF token (Basic Auth as admin)
+# 1) Получаем cookie XSRF-TOKEN
+GET http://localhost:8080/api/users
+Authorization: Basic {{admin_basic}}
+
+### Example: use CSRF token for modifying request
+# 2) В IDE (IntelliJ HTTP client) можно использовать переменную {{csrf}} из cookie XSRF-TOKEN
+POST http://localhost:8080/api/rooms/add?id=10&name=TestRoom
+Authorization: Basic {{admin_basic}}
+X-XSRF-TOKEN: {{csrf}}
+
+################################################################################
+### USERS CRUD (ROLE_ADMIN for write, ROLE_USER/ADMIN for read)
+
+### Get all users (USER or ADMIN)
+GET http://localhost:8080/api/users
+Authorization: Basic {{user_basic}}
+
+### Create user (ADMIN only)
+POST http://localhost:8080/api/users/add?id=2&name=Bob&email=bob@example.com
+Authorization: Basic {{admin_basic}}
+X-XSRF-TOKEN: {{csrf}}
+
+### Update user (ADMIN only)
+PUT http://localhost:8080/api/users/update?id=2&name=BobUpdated
+Authorization: Basic {{admin_basic}}
+X-XSRF-TOKEN: {{csrf}}
+
+### Delete user (ADMIN only)
+DELETE http://localhost:8080/api/users/delete?id=2
+Authorization: Basic {{admin_basic}}
+X-XSRF-TOKEN: {{csrf}}
+
+################################################################################
+### ROOMS CRUD + BUSINESS OPS
+
+### Get all rooms (USER or ADMIN)
+GET http://localhost:8080/api/rooms
+Authorization: Basic {{user_basic}}
+
+### Create room (ADMIN only)
+POST http://localhost:8080/api/rooms/add?id=3&name=Office
+Authorization: Basic {{admin_basic}}
+X-XSRF-TOKEN: {{csrf}}
+
+### Turn off all devices in room (ADMIN only, т.к. POST)
+POST http://localhost:8080/api/rooms/1/turnOffAllDevices
+Authorization: Basic {{admin_basic}}
+X-XSRF-TOKEN: {{csrf}}
+
+### Safe delete room (ADMIN only)
+DELETE http://localhost:8080/api/rooms/delete?id=1
+Authorization: Basic {{admin_basic}}
+X-XSRF-TOKEN: {{csrf}}
+
+################################################################################
+### DEVICES CRUD + BUSINESS OP
+
+### Get all devices (USER or ADMIN)
+GET http://localhost:8080/api/devices
+Authorization: Basic {{user_basic}}
+
+### Create device (ADMIN only)
+POST http://localhost:8080/api/devices/add?id=4&name=NewDevice&roomId=1&type=light&on=false
+Authorization: Basic {{admin_basic}}
+X-XSRF-TOKEN: {{csrf}}
+
+### Toggle device (ADMIN only, POST)
+POST http://localhost:8080/api/devices/toggle?id=1
+Authorization: Basic {{admin_basic}}
+X-XSRF-TOKEN: {{csrf}}
+
+################################################################################
+### RULES CRUD
+
+### Get all rules (USER or ADMIN)
+GET http://localhost:8080/api/rules
+Authorization: Basic {{user_basic}}
+
+### Create rule (ADMIN only)
+POST http://localhost:8080/api/rules/add?id=3&roomId=1&eventType=motion&action=notify_user&active=true
+Authorization: Basic {{admin_basic}}
+X-XSRF-TOKEN: {{csrf}}
+
+################################################################################
+### EVENTS + LOGS
+
+### Create event (ADMIN only, POST)
+POST http://localhost:8080/api/events/add
+Authorization: Basic {{admin_basic}}
+Content-Type: application/json
+X-XSRF-TOKEN: {{csrf}}
+
+{
+  "id": 100,
+  "deviceId": 2,
+  "type": "motion",
+  "data": "test"
+}
+
+### Get logs (USER or ADMIN)
+GET http://localhost:8080/api/events/logs
+Authorization: Basic {{user_basic}}
+
+################################################################################
+### ROOM STATUS
+
+### Get room status (USER or ADMIN)
+GET http://localhost:8080/api/rooms/1/status
+Authorization: Basic {{user_basic}}
+
